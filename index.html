@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Starter Template - Materialize</title>
+
+  <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <?!= HtmlService.createHtmlOutputFromFile('mainjavascript').getContent(); ?>
+    <?!= HtmlService.createHtmlOutputFromFile('materializecss').getContent(); ?>
+</head>
+<body>
+<!-- Dropdown Structure -->
+<ul id="dropdownTestTemp" class="dropdown-content">
+  <li><a onclick="showHide(2)">Dashboard</a></li>
+  <li><a onclick="showHide(5)">Shopping List</a></li>
+  <li><a onclick="showHide(7)">Pantry</a></li>
+  <li><a onclick="showHide(6)">Meal Plan</a></li>
+</ul>
+  <nav>
+    <div class="nav-wrapper light-blue lighten-1">
+      <a href="#" class="brand-logo center">FoodTime</a>
+      <ul id="nav-mobile" class="left">
+        <li><a class="dropdown-button" href="#!" data-activates="dropdownTestTemp">Kitchen<i class="material-icons right">arrow_drop_down</i></a></li>
+        <li><a onclick="showHide(3)">Health</a></li>
+      </ul>
+    </div>
+  </nav>
+        <div id="kitchen" class="row"> 
+        
+            <div class="white-text col s12 m0 l2">test</div>
+            
+                <div class="col s12 m4 l2" id="thelist">
+                    <div class="card darken-1 hoverable">
+                        <div class="card-content">
+                            <span class="card-title black-text">Shopping List</span>
+                            <div class="clearfix">
+                                <ul id="GroceryList_Div" class='collapsible hoverable' data-collapsible='accordion'></ul>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <div class="row">
+                                <form>
+                                    <input id="last_name" name="newEntry" type="text" class="validate left col s9">
+                                    <button class=" btn-floating btn-medium waves-effect waves-light red right hoverable" type="reset" onclick="google.script.run.withSuccessHandler(updateGroceryDisplay).addItem(this.parentNode)"><i class="material-icons">add</i></button>
+                                    <button class="right waves-effect waves-light btn hoverable" type="button" onclick="Unload()">unload</button>
+                                    <input id="checkBox" name="List" type="checkbox" value="GroceryList" checked="checked" />
+                                    <input id="checkBox" name="Action" type="checkbox" value="Add" checked="checked" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col s12 m4 l4" id="theplan">
+                    <div id="makebigger" class="card darken-1 hoverable">
+                        <div class="card-content">
+                            <span class="card-title black-text">Meal Plan</span>
+                            <div class="clearfix">
+                                <ul id="MealPlan_Div" class='collapsible hoverable' data-collapsible='accordion'></ul>
+                            </div>
+                        </div>
+                        <div class="fixed-action-btn horizontal" style="position: absolute; display: inline-block; right: 24px; margin-bottom: 20px;">
+                            <form>
+                            <button class="btn-floating btn-medium waves-effect waves-light red right hoverable" type="button" onclick="google.script.run.withSuccessHandler(updateMealDisplay).setupMealWindow('', 1)">
+                            <i class="large material-icons">mode_edit</i>
+                            </button>
+                            </form>
+                            <ul>
+                                <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+                                <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                                <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+                                <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>                
+          
+                <div class="col s12 m4 l2" id="ininventory">
+                    <div class="card darken-1 hoverable">
+                        <div class="card-content">
+                            <span class="card-title black-text">Inventory</span>
+                            <div class="clearfix">
+                                <ul id="Inventory_Div" class='collapsible hoverable' data-collapsible='accordion'></ul>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <div class="row">
+                                <form>
+                                    <input id="last_name" name="newEntry" type="text" class="validate left col s9">
+                                    <button class=" btn-floating btn-medium waves-effect waves-light red right hoverable" type="reset" onclick="google.script.run.withSuccessHandler(updateInventoryDisplay).addItem(this.parentNode)"><i class="material-icons">add</i></button>
+                                    <input id="checkBox" name="List" type="checkbox" value="Inventory" checked="checked" />
+                                    <input id="checkBox" name="Action" type="checkbox" value="Add" checked="checked" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+        <div id="health"> 
+            <div class="white-text col s12 m2">test</div>
+            <div class="col s12 m8">
+                <div class="card darken-1 hoverable">
+                    <div class="card-content">
+                        <span class="card-title black-text">Steve</span>
+                            <div class="row">
+                              <div class="clearfix">
+                                <div id="tempDivtest" class='col s12 m3 white-text'><div class="crop"></div></div>
+                                <div id="tempDivtest" class='col s12 m4 collapsible hoverable right' data-collapsible='accordion'>
+                                  <div class='collapsible-header'>iDooDi stats</div>
+                                </div>
+                                <div id="tempDivtest" class='col s12 m4 collapsible hoverable right' data-collapsible='accordion'>
+                                <div class="card darken-1 hoverable">
+                                    <div class="card-content">
+                                        <span class="card-title black-text">Meal Plan</span>
+                                        <div class="clearfix">
+                                            <ul id="GroceryList_Div" class='collapsible hoverable' data-collapsible='accordion'></ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <div class="row">
+                                            <div class="fixed-action-btn horizontal" style="position: absolute; display: inline-block; right: 24px; margin-bottom: 20px;">
+                                                <button class="btn-floating btn-medium waves-effect waves-light red right hoverable">
+                                                    <i class="large material-icons">mode_edit</i>
+                                                </button>
+                                                <ul>
+                                                    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+                                                    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                                                    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+                                                    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="card-action"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div id="Info_Div" class="card darken-1 hoverable">
+      </div>      
+      <div id="Meal_Div" class="card darken-1 hoverable">
+      </div>
+      
+    </div>
+  </body>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+</html>

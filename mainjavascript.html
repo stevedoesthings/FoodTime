@@ -1,0 +1,381 @@
+<script>
+(function firstDisplay(list){
+    google.script.run.withSuccessHandler(updateGroceryDisplay).Inventory('GroceryList');
+    google.script.run.withSuccessHandler(updateMealList).Inventory('MealList');
+    google.script.run.withSuccessHandler(updateInventoryDisplay).Inventory('Inventory');
+})();
+
+function updateGroceryDisplay(list){
+	var adjList = list.split(",");
+	var adjLen = adjList.length;
+    var div = document.getElementById("GroceryList_Div");
+    if (adjLen < 2){
+        return div.innerHTML = "";
+    }  
+	var html = "";
+    var i = 1;
+    var adjListLen = adjLen - 1;
+    var listName = 1;
+        
+    for(i; i < adjLen; i++){
+	    var row = i;
+	    var entry = adjList[i];
+	    var strEntry = entry.toString();
+		
+        html += "<div  class='bordered collapsible-header' id='box7'>\
+                        <li id='testli'>\
+                        <span class='listitem' id='testspan"+row+"' onclick='wrap("+row+")'>"+strEntry+"</span>\
+                        <i class='secondary-content material-icons' onclick='google.script.run\
+                                                                             .withSuccessHandler(updateGroceryDisplay)\
+                                                                             .deleteItem("+listName+","+row+","+adjListLen+")'>delete</i>\
+                        <i class='secondary-content material-icons' onclick='google.script.run\
+                                                                             .withSuccessHandler(updateInfoDisplay)\
+                                                                             .setupInfoWindow("+listName+","+row+")'>info_outline</i></li></div>";
+    }
+    div.innerHTML = html;
+}
+
+function updateInventoryDisplay(inventoryList){
+	var adjList = inventoryList.split(",");
+	var adjLen = adjList.length;
+    var div = document.getElementById("Inventory_Div");
+    if (adjLen < 2){
+        return div.innerHTML = "";
+    }
+    var i = 1;
+    var adjListLen = adjLen - 1;
+    var listName = 2;
+    var html = "";
+        
+    for(i; i < adjLen; i++){
+	    var row = i;
+	    var entry = adjList[i];
+	    var strEntry = entry.toString();
+
+
+		html += "<div  class='bordered collapsible-header' id='box7'>\
+                 <li id='testli'>\
+                 <span class='listitem'>"+strEntry+"</span>\
+                 <i class='secondary-content material-icons' onclick='google.script.run\
+                                                                      .withSuccessHandler(updateInventoryDisplay)\
+                                                                      .deleteItem("+listName+","+row+","+adjListLen+")'>delete</i>\
+                 <i class='secondary-content material-icons' onclick='google.script.run\
+                                                                      .withSuccessHandler(updateInfoDisplay)\
+                                                                      .setupInfoWindow("+listName+","+row+")'>info_outline</i></li></div>";
+    }
+    div.innerHTML = html;
+}
+
+function updateInfoDisplay(list){
+	var adjList = list.split(", ");
+	var adjLen = adjList.length;
+	var div = document.getElementById("Info_Div");
+    var list = adjList[0];
+    var row = adjList[1];
+    var strItem = adjList[2];
+    var type = adjList[3];
+    var amt = adjList[4];
+    var amttype = adjList[5];
+    
+    var html = "<div class='card-content'>\
+                    <span name='strItem' class='card-title black-text'>"+strItem+"</span>\
+                    <button class='btn-floating btn-medium waves-effect waves-light red right' onclick='showHide(1)'><i class='material-icons'>close</i></button>\
+                    <form>\
+                    <input name='itemType' id='itemType' list='itemTypeSelector' placeholder='"+type+"' value=''/>\
+                    <datalist class='browser-default' id='itemTypeSelector'>\
+                    <option value='Ingredient'>Ingredient</option>\
+                    <option value='Meal'>Meal</option>\
+                    <option value='Snack'>Snack</option>\
+                    </datalist>\
+                        <table>\
+                            <tr>\
+                                <td>\
+                                    <input name='amt' placeholder='amt' value='"+amt+"'/>\
+                                </td>\
+                                <td>\
+                                    <input name='itemAmtType' id='itemAmtType' list='itemAmtTypeSelector' placeholder='"+amttype+"' value=''/>\
+                                    <datalist class='browser-default' id='itemAmtTypeSelector'>\
+                                        <option value='gm'>gm</option>\
+                                        <option value='oz'>oz</option>\
+                                    </datalist>\
+                                </td>\
+                            </tr>\
+                        </table>\
+                        <button id='buttbutton' class='right waves-effect waves-light btn' type='button' onclick='google.script.run\
+                                                                                                                  .withSuccessHandler(showHide(1))\
+                                                                                                                  .updateItemInfo(this.parentNode)'>Update</button>\
+                        <input id='checkBox' name='setType' type='checkbox' value='"+type+"' checked='checked' />\
+                        <input id='checkBox' name='setAmtType' type='checkbox' value='"+amttype+"' checked='checked' />\
+                        <input id='checkBox' name='List' type='checkbox' value='"+list+"' checked='checked' />\
+                        <input id='checkBox' name='Item' type='checkbox' value='"+strItem+"' checked='checked' />\
+                        <input id='checkBox' name='Row' type='checkbox' value='"+row+"' checked='checked' /></form></div>";
+    div.innerHTML = html;
+    showHide(1);
+}
+
+function updateMealList(mealList){
+	var adjList = mealList.split(",");
+	var adjLen = adjList.length;
+    var div = document.getElementById("MealPlan_Div");
+    if (adjLen < 2){
+        return div.innerHTML = "";
+    }  
+	var html = "";
+    var i = 1;
+    var adjListLen = adjLen - 1;
+    var listName = 3;
+
+    for(i; i < adjLen; i++){
+	    var row = i;
+	    var entry = adjList[i];
+	    var strEntry = entry.toString();
+        
+		html += "<div  class='bordered collapsible-header' id='box7'>\
+                       <li id='testli'>\
+                       <span class='listitem'>"+strEntry+"</span>\
+                       <i class='secondary-content material-icons' onclick='google.script.run\
+                                                                            .withSuccessHandler(updateMealList)\
+                                                                            .deleteItem("+listName+","+row+","+adjListLen+")'>delete</i>\
+                       <i class='secondary-content material-icons' onclick='google.script.run\
+                                                                            .withSuccessHandler(updateMealDisplay)\
+                                                                            .setupMealWindow("+row+", 2)'>info_outline</i></li></div>";
+	    }
+    div.innerHTML = html;
+}
+
+function updateMealListNewMeal(){
+    google.script.run.withSuccessHandler(updateMealList).Inventory('MealList');
+    google.script.run.clearIngredientsTempList();
+    showHide(4);
+}
+
+function updateMealDisplay(package){
+	var div = document.getElementById("Meal_Div");
+    var packStr = package.toString();
+    var currentIngredients = "";
+    var row = "";
+    
+    if (package.indexOf("ingredients stop") > 0){
+        var res1 = packStr.split("ingredients stop");
+        
+        var res1Str = res1[0].toString();
+        var actionNameIngredients = res1Str.split(",");
+        var ingAryLen = actionNameIngredients.length;
+        
+        var res2Str = res1[1].toString();
+        var activeIngredients = res2Str.split(",");
+        var actIngAryLen = activeIngredients.length;
+        
+        row = actionNameIngredients[0];
+        var k = 4;
+        var currentIngredients = "";
+        
+        for (k; k < (ingAryLen-1); k++){
+        var res = actionNameIngredients[k].replace(/ derp /g, " ");
+        var row2 = k-4;
+            if (currentIngredients == "" && res != ""){
+                currentIngredients = res + "<i class='material-icons' onclick='google.script.run.withSuccessHandler(updateIngredientList).retreiveIngredients("+row2+")'>-</i>";
+            } else {
+                currentIngredients = currentIngredients +"<br>"+ res + "<i class='material-icons' onclick='google.script.run.withSuccessHandler(updateIngredientList).retreiveIngredients("+row2+")'>-</i>";
+            }
+        }
+    } else {
+        var activeIngredients = packStr.split(",");
+        var actIngAryLen = activeIngredients.length;
+    }
+    
+    //console.log("updateMealDisplay - "+package);
+    
+    var title = "Add";
+    var button = "Add";
+    var name = "";
+    var action = "Add";
+    var description = "";
+    
+    if (package[3] != null){
+        description = package[3];
+    }
+    
+    if (package[1] == 2){
+        title = "Update";
+        button = "Update";
+        name = package[2];
+        action = "Update";
+        row = package[0];
+    }
+    
+    var i = 1;    
+    var ingOptions = "";
+    
+    for (i; i < actIngAryLen; i++){
+        ingOptions += "<option value='"+activeIngredients[i]+"'>"+activeIngredients[i]+"</option>";
+    }
+    
+    var html = "<div class='card-content'>\
+                    <form>\
+                    <span name='strItem' class='card-title black-text'>"+title+" Meal</span>\
+                    <button class='btn-floating btn-medium waves-effect waves-light red right' type='reset' onclick='google.script.run\
+                                                                                                                     .withSuccessHandler(showHide(4))\
+                                                                                                                     .clearIngredientsTempList()'>\
+                    <i class='material-icons'>close</i></button>\
+                    <input name='newRecipe' placeholder='name' value='"+name+"'/>\
+                    <h5>description</h5>\
+                    <textarea name='description' value='"+description+"'>"+description+"</textarea>\
+                    <h5>ingredients</h5>\
+                    <p id='ingredientsList'>"+currentIngredients+"</p>\
+                    <input name='ingredientInput' id='ingredientInput' list='typeSelector' value=''/>\
+                    <datalist class='browser-default' id='typeSelector'>\
+                    "+ingOptions+"\
+                    </datalist>\
+                    <input name='qtInput' id='qtInput' value=''/>\
+                    <input name='qtInputSelector' id='qtInputSelector' list='qtSelector' value=''/>\
+                    <datalist id='qtSelector'>\
+                    <option value='gm'>gm</option>\
+                    <option value='oz'>oz</option>\
+                    </datalist>\
+                    <button class='btn-floating btn-medium waves-effect waves-light red hoverable right' type='button' onclick='google.script.run\
+                                                                                                                          .withSuccessHandler(updateIngredientList)\
+                                                                                                                          .addIngredient(this.parentNode)'>\
+                    <input id='checkBox' name='Row' type='checkbox' value='"+row+"' checked='checked' />\
+                    <i class='material-icons'>add</i></button>\
+                    <input type='checkbox' name='saveRecipe' id='test5' />\
+                    <label for='test5'>save recipe</label>\
+                    <button id='buttbutton' class='right waves-effect waves-light btn' type='button' onclick='google.script.run\
+                                                                                                              .withSuccessHandler(updateMealListNewMeal)\
+                                                                                                              .addRecipe(this.parentNode)'>"+button+"</button>\
+                    <input id='checkBox' name='Action' type='checkbox' value='"+action+"' checked='checked' />\</form></div>";
+    div.innerHTML = html;
+    showHide(4);
+    return package;
+} 
+
+function updateIngredientList(ingredients){
+//console.log("updateIngredientList - "+ingredients);
+    var div = document.getElementById("ingredientsList");
+    var ingredientsStr = ingredients.toString();
+    var listSplit = ingredientsStr.split(",");
+    var listSplitLen = listSplit.length;
+    var i = 0;
+    var html = '';
+    
+    for (i; i < listSplitLen; i++){
+        var res = listSplit[i].replace(/ derp /g, " ");
+        if (html == ""){
+            html = res + "<i class='material-icons' onclick='google.script.run.withSuccessHandler(updateIngredientList).retreiveIngredients("+i+")'>-</i>";
+        } else {
+            html = html + "<br>" + res + "<i class='material-icons' onclick='google.script.run.withSuccessHandler(updateIngredientList).retreiveIngredients("+i+")'>-</i>";
+        }
+    }
+    
+    div.innerHTML = html;
+    resetIngredientsInput();
+}
+
+function resetIngredientsInput(){
+    var field = document.getElementById('ingredientInput');
+    field.value = "";
+    var field = document.getElementById('qtInput');
+    field.value = "";
+    var field = document.getElementById('qtInputSelector');
+    field.value = "";
+    return;
+}
+
+// -- UNDER CONSTRUCTION -- checks to see if item has been crossed off the grocery list and moves it the inventory list
+function Unload() {
+    var toUnload = document.querySelectorAll(".listitem");
+    var max = toUnload.length;
+    var i = 0;
+    var k = max;
+    
+    for (i; i < max; i++) {
+        if(toUnload[i].style.textDecoration=="line-through"){
+            google.script.run.moveItem(i+1);
+        }
+    }
+
+    for (k; k > 0; k--) {
+        var listName = 1;
+        var row = k;
+        if(toUnload[k-1].style.textDecoration=='line-through'){
+            google.script.run.deleteItem(listName, row);
+            google.script.run.withSuccessHandler(updateInventoryDisplay).Inventory('Inventory');
+            google.script.run.withSuccessHandler(updateGroceryDisplay).Inventory('GroceryList');
+        }
+    }
+    //firstDisplay();
+}
+
+function wrap(id) {
+    var spanId = 'testspan'+id;
+    if (document.getElementById(spanId).style.textDecoration=='line-through'){
+        document.getElementById(spanId).style.textDecoration='';
+    } else {
+        document.getElementById(spanId).style.textDecoration='line-through';
+    }
+}
+
+function showHide(magic) {
+    switch (magic){
+        case 2:
+        document.getElementById('kitchen').style.visibility='visible';
+        document.getElementById('thelist').style.visibility='visible';
+        document.getElementById('theplan').style.visibility='visible';
+        document.getElementById('ininventory').style.visibility='visible';
+        document.getElementById('health').style.visibility='hidden';
+        break;
+        
+        case 3:
+        document.getElementById('health').style.visibility='visible';
+        document.getElementById('kitchen').style.visibility='hidden';
+        document.getElementById('thelist').style.visibility='hidden';
+        document.getElementById('theplan').style.visibility='hidden';
+        document.getElementById('ininventory').style.visibility='hidden';
+        return;
+        break;
+        
+        case 4:
+        if (document.getElementById('Meal_Div').style.visibility=='visible'){
+            document.getElementById('Meal_Div').style.visibility='hidden';
+            google.script.run.withSuccessHandler(updateMealList).Inventory('MealList');
+            break;
+        } else {
+            document.getElementById('Meal_Div').style.visibility='visible';
+            break;
+        }
+        
+        case 5:
+        document.getElementById('thelist').style.visibility='visible';
+        document.getElementById('health').style.visibility='hidden';
+        document.getElementById('theplan').style.visibility='hidden';
+        document.getElementById('ininventory').style.visibility='hidden';
+        return;
+        break;
+        
+        case 6:
+        document.getElementById('theplan').style.visibility='visible';
+        document.getElementById('thelist').style.visibility='hidden';
+        document.getElementById('health').style.visibility='hidden';
+        document.getElementById('ininventory').style.visibility='hidden';
+        return;
+        break;
+        
+        case 7:
+        document.getElementById('ininventory').style.visibility='visible';
+        document.getElementById('theplan').style.visibility='hidden';
+        document.getElementById('thelist').style.visibility='hidden';
+        document.getElementById('health').style.visibility='hidden';
+        return;
+        break;
+        
+        default:
+        if (document.getElementById('Info_Div').style.visibility=='visible'){
+            document.getElementById('Info_Div').style.visibility='hidden';
+            break;
+        } else {
+            document.getElementById('Info_Div').style.visibility='visible';
+            break;
+        }
+    }
+}
+</script>
